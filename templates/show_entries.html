@@ -2,27 +2,27 @@
 
 {% extends "layout.html" %}
 {% block body %}
-  {% if session.logged_in %}
     <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">
-      <dl>
-        <dt>Text:
-        <dd><textarea name="text" rows="5" cols="40"></textarea>
-        <dd><input type="hidden" id="date" name="date">
-        <dd><input type="submit" value="Add">
-      </dl>
-    </form>
-    <form action="{{ url_for('clear_database') }}" method="post" class="clear-database">
-      <input type="submit" value="Clear Database">
+      <ul style="list-style: none">
+        <li>Printer: <textarea name="printer" rows="1" cols="10"></textarea>
+        <li>Copies: <textarea name="copies" rows="1" cols="1"></textarea>
+        <li>Success: <textarea name="success" rows="1" cols="1"></textarea>
+        <li><input type="submit" value="Add">
+      </ul>
     </form>
   <script type="text/javascript">
     document.getElementById('date').value = Date();
   </script>
+  {% if session.logged_in %}
   <ul class="entries">
   {% for entry in entries %}
-    <li><h3>{{ entry.text|safe }}</h3>{{ entry.time }}
+    <li><h4>{{ entry.time }}</h4> {{ entry.printer }}, copies: {{ entry.copies }}, success: {{ entry.success }}
   {% else %}
     <li><em>Database is empty.</em>
   {% endfor %}
   </ul>
+  <form action="{{ url_for('clear_database') }}" method="post" class="clear-database">
+    <input type="submit" value="Clear Database">
+  </form>
   {% endif %}
 {% endblock %}

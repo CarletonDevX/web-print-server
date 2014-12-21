@@ -1,6 +1,7 @@
 #Adapted from the "flaskr" tutorial at http://flask.pocoo.org/
 
 import sqlite3
+import time, datetime
 from flask import Flask, request, session, g, redirect, url_for, \
      abort, render_template, flash
 from contextlib import closing
@@ -37,19 +38,21 @@ def teardown_request(exception):
     if db is not None:
         db.close()
 
+#other helpers
+def format_time(timestamp):
+    return datetime.datetime.fromtimestamp(timestamp).strftime('%H:%M:%S, %Y-%m-%d')
+
 #default view
 @app.route('/')
 def show_entries():
-    cur = g.db.execute('select time, text from Entries order by id desc')
-    entries = [dict(time=row[0], text=row[1]) for row in cur.fetchall()]
+    cur = g.db.execute('select time, printer, copies, success from Entries order by id desc')
+    entries = [dict(time=format_time(row[0]), printer=row[1], copies=row[2], success=row[3]) for row in cur.fetchall()]
     return render_template('show_entries.html', entries=entries)
 
 @app.route('/add', methods=['POST'])
 def add_entry():
-    if not session.get('logged_in'):
-        abort(401)
-    g.db.execute('insert into entries (text, time) values (?, ?)',
-                 [request.form['text'], request.form['date']])
+    g.db.execute('insert into entries (time, printer, copies, success) values (?, ?, ?, ?)',
+                 [time.time(), request.form['printer'], request.form['copies'], request.form['success']])
     g.db.commit()
     return redirect(url_for('show_entries'))
 
