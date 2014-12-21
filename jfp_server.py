@@ -45,13 +45,15 @@ def format_time(timestamp):
 #default view
 @app.route('/')
 def show_entries():
-    cur = g.db.execute('select time, printer, copies, success from Entries order by id desc')
-    entries = [dict(time=format_time(row[0]), printer=row[1], copies=row[2], success=row[3]) for row in cur.fetchall()]
-    return render_template('show_entries.html', entries=entries)
+    cur = g.db.execute('SELECT time, printer, copies, success FROM Entries ORDER BY id DESC')
+    entries = [dict(time=row[0], printer=row[1], copies=row[2], success=row[3]) for row in cur.fetchall()]
+    numreq = g.db.execute('SELECT COUNT(*) FROM Entries').fetchone()[0]
+    dayreq = g.db.execute('SELECT COUNT(*) FROM Entries WHERE time > ?', [time.time()-86400000]).fetchone()[0]
+    return render_template('show_entries.html', entries=entries, numrequests=numreq, dayrequests=dayreq)
 
 @app.route('/add', methods=['POST'])
 def add_entry():
-    g.db.execute('insert into entries (time, printer, copies, success) values (?, ?, ?, ?)',
+    g.db.execute('INSERT INTO entries (time, printer, copies, success) VALUES (?, ?, ?, ?)',
                  [time.time(), request.form['printer'], request.form['copies'], request.form['success']])
     g.db.commit()
     return redirect(url_for('show_entries'))

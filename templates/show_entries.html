@@ -14,6 +14,8 @@
     document.getElementById('date').value = Date();
   </script>
   {% if session.logged_in %}
+  <h4>Total requests: {{ numrequests }}</h4>
+  <h4>Requests in the last 24 hours: {{ dayrequests }}</h4>
   <ul class="entries">
   {% for entry in entries %}
     <li><h4>{{ entry.time }}</h4> {{ entry.printer }}, copies: {{ entry.copies }}, success: {{ entry.success }}
