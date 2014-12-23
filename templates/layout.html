@@ -1,0 +1,58 @@
+<!-- Adapted from the "flaskr" tutorial at http://flask.pocoo.org/ -->
+
+<!doctype html>
+<title>JFP Server</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<div class="page">
+  <h1>JFP Data</h1>
+  {% if not session.logged_in %}
+  <h2>Login</h2>
+    <form action="{{ url_for('login') }}" method=post>
+      <dl>
+        <dt>Username:
+        <dd><input type=text name=username>
+        <dt>Password:
+        <dd><input type=password name=password>
+        <dd><input type=submit value=Login>
+      </dl>
+    </form>
+  {% else %}
+  <div class="metanav">
+    <a href="{{ url_for('logout') }}">log out</a>
+  </div>
+  <div class="console">
+    <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">
+      <ul style="list-style: none">
+        <li>Printer: <textarea name="printer" rows="1" cols="10"></textarea>
+        <li>Copies: <textarea name="copies" rows="1" cols="1"></textarea>
+        <li>Success: <textarea name="success" rows="1" cols="1"></textarea>
+        <li><input type="submit" value="Add">
+      </ul>
+    </form>
+    {% if request.path == "/" %}
+      <form action="{{ url_for('hide_successful') }}" method="post">
+        <input type="submit" value="Hide Successful Requests">
+      </form>
+    {% else %}
+      <form action="{{ url_for('show_successful') }}" method="post">
+        <input type="submit" value="Show Successful Requests">
+      </form>   
+    {% endif %} 
+  </div>
+  <script type="text/javascript">
+    document.getElementById('date').value = Date();
+  </script>
+  <h4>Total requests: {{ numrequests }}</h4>
+  <h4>Requests in the last 24 hours: {{ dayrequests }}</h4>
+  <ul class="entries">
+  {% for entry in entries %}
+    <li {% if entry.success == 0 %} class="error" {% endif %} ><h4>{{ entry.time }}</h4> {{ entry.printer }}, copies: {{ entry.copies }}, success: {{ entry.success }}
+  {% else %}
+    <li><em>Database is empty.</em>
+  {% endfor %}
+  </ul>
+  <form action="{{ url_for('clear_database') }}" method="post">
+    <input type="submit" value="Clear Database">
+  </form>
+{% endif %}
+</div>
