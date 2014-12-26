@@ -19,7 +19,7 @@
     <div class="metanav">
       <a href="{{ url_for('logout') }}">Log out</a>
     </div>
-<!--     <div class="console">
+<!--<div class="console">
       <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">
         <ul style="list-style: none">
           <li>Printer: 
@@ -31,7 +31,7 @@
           <li><input type="submit" value="Add">
         </ul>
       </form>
-    </div> -->
+    </div>-->
     {% if entries|length == 0 %}
         <p>Database is empty.</p>
     {% else %}
