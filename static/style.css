@@ -1,17 +1,25 @@
 /*Adapted from the "flaskr" tutorial at http://flask.pocoo.org/*/
 
-body            { font-family: sans-serif; background: #eee; }
+body            { font-family: "Source Sans Pro", sans-serif; background: #E8E8E8; }
 a, h1, h2       { color: #377ba8; }
 h1, h2          { font-family: 'Georgia', serif; margin: 0; }
 h1              { text-align:center; border-bottom: 2px solid #eee; }
-h2              { font-size: 1.2em; }
+h2              { font-size: 1.2em; margin: 5px;}
+table, th, td	{ border: 1px solid #888; padding: 5px; text-align: center; }
+dl, dt, dd,
+ul, li	 		{ text-align: center; margin: 5px; padding: 0px; }
+form 			{ padding: 5px; }
 
-.page           { margin: 2em auto; width: 35em; border: 5px solid #ccc;
+.page           { display: flex; flex-direction: column; align-items: center; margin: 2em auto; 
+				  width: 35em; box-shadow: 0px 0px 50px rgba(0,0,0,0.2);
                   padding: 0.8em; background: white; }
-.entries        { list-style: none; margin: 0; padding: 0; }
-.entries li     { margin: 0.8em 1.2em; }
-.entries li h2  { margin-left: -1em; }
+
+.table-stats	{}
+.stat			{ margin: 5px; }
+.table-actions	{ display: flex; align-items: center; }
+.entries        { width: 30em; border-collapse: collapse; }
+.entries th     { background: #91B4CC; }
 .console        { font-size: 0.9em; border-bottom: 1px solid #ccc; }
-.metanav        { text-align: right; font-size: 0.8em; padding: 0.3em;
+.metanav        { text-align: left; font-size: 0.8em; padding: 0.3em;
                   margin-bottom: 1em; background: #fafafa; }
 .error          { color: red; }

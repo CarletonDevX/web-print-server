@@ -40,13 +40,13 @@ def teardown_request(exception):
 
 #other helpers
 def format_time(timestamp):
-    return datetime.datetime.fromtimestamp(timestamp).strftime('%H:%M:%S, %Y-%m-%d')
+    return datetime.datetime.fromtimestamp(timestamp).strftime('%H:%M:%S - %m/%d/%Y')
 
 #default view
 @app.route('/')
 def show_entries():
     cur = g.db.execute('SELECT time, printer, copies, success FROM Entries ORDER BY id DESC')
-    entries = [dict(time=row[0], printer=row[1], copies=row[2], success=row[3]) for row in cur.fetchall()]
+    entries = [dict(time=format_time(row[0]), printer=row[1], copies=row[2], success=row[3]) for row in cur.fetchall()]
     numreq = g.db.execute('SELECT COUNT(*) FROM Entries').fetchone()[0]
     dayreq = g.db.execute('SELECT COUNT(*) FROM Entries WHERE time > ?', [time.time()-86400000]).fetchone()[0]
     return render_template('layout.html', entries=entries, numrequests=numreq, dayrequests=dayreq)
@@ -54,14 +54,14 @@ def show_entries():
 @app.route('/add', methods=['POST'])
 def add_entry():
     g.db.execute('INSERT INTO entries (time, printer, copies, success) VALUES (?, ?, ?, ?)',
-                 [format_time(time.time()), request.form['printer'], request.form['copies'], request.form['success']])
+                 [time.time(), request.form['printer'], request.form['copies'], request.form['success']])
     g.db.commit()
     return redirect(url_for('show_entries'))
 
 @app.route('/hide', methods=['POST'])
 def hide_successful():
     cur = g.db.execute('SELECT time, printer, copies, success FROM Entries WHERE success == 0 ORDER BY id DESC')
-    entries = [dict(time=row[0], printer=row[1], copies=row[2], success=row[3]) for row in cur.fetchall()]
+    entries = [dict(time=format_time(row[0]), printer=row[1], copies=row[2], success=row[3]) for row in cur.fetchall()]
     numreq = g.db.execute('SELECT COUNT(*) FROM Entries').fetchone()[0]
     dayreq = g.db.execute('SELECT COUNT(*) FROM Entries WHERE time > ?', [time.time()-86400000]).fetchone()[0]
     return render_template('layout.html', entries=entries, numrequests=numreq, dayrequests=dayreq)
@@ -90,8 +90,6 @@ def login():
         else:
             session['logged_in'] = True
     return redirect(url_for('show_entries'))
-
-poop = True
 
 @app.route('/logout')
 def logout():
