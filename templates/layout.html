@@ -32,10 +32,7 @@
         </ul>
       </form>
     </div>-->
-    {% if entries|length == 0 %}
-        <p>Database is empty.</p>
-    {% else %}
-      <div class="table-stats">
+    <div class="table-stats">
         <h4 class="stat">Total requests: {{ numrequests }}</h4>
         <h4 class="stat">Requests in the last 24 hours: {{ dayrequests }}</h4>
       </div>
@@ -53,6 +50,9 @@
           <input type="submit" value="Clear Database">
         </form>
       </div>
+    {% if entries|length == 0 %}
+        <p>Database is empty.</p>
+    {% else %}
       <div class="table-scroll">
         <table class="entries">
           <tr>
