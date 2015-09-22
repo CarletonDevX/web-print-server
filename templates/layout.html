@@ -19,19 +19,6 @@
     <div class="metanav">
       <a href="{{ url_for('logout') }}">Log out</a>
     </div>
-<div class="console">
-      <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">
-        <ul style="list-style: none">
-          <li>Printer: 
-          <li><textarea name="printer" rows="1" cols="10"></textarea>
-          <li>Copies: 
-          <li><textarea name="copies" rows="1" cols="10"></textarea>
-          <li>Success: 
-          <li><textarea name="success" rows="1" cols="10"></textarea>
-          <li><input type="submit" value="Add">
-        </ul>
-      </form>
-    </div>
     <div class="table-stats">
         <h4 class="stat">Total requests: {{ numrequests }}</h4>
         <h4 class="stat">Requests in the last 24 hours: {{ dayrequests }}</h4>
@@ -69,6 +56,29 @@
         {% endfor %}
         </table>
       </div>
-    {% endif %} 
+    {% endif %}
+        <label style="margin: 15px">
+          <input class="show-console" type="checkbox">
+          Show console
+        </label>
+<div class="console">
+      <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">
+        <ul style="list-style: none">
+          <li>Printer: 
+          <li><textarea name="printer" rows="1" cols="10"></textarea>
+          <li>Copies: 
+          <li><textarea name="copies" rows="1" cols="10"></textarea>
+          <li>Success: 
+          <li><textarea name="success" rows="1" cols="10"></textarea>
+          <li><input type="submit" value="Add">
+        </ul>
+      </form>
+    </div>
   {% endif %}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script> 
+  $(".console").hide();
+  $(".show-console").change(function () {
+    $(".console").toggle(this.checked);
+  });
+</script>
 </div>
