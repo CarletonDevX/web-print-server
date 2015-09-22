@@ -7,7 +7,7 @@ from flask import Flask, request, session, g, redirect, url_for, \
 from contextlib import closing
 
 # configuration
-DATABASE = 'db/data.db'
+DATABASE = '/var/www/web-print-server/web-print-server/db/data.db'
 DEBUG = True
 SECRET_KEY = 'keepitsecretkeepitsafe'
 USERNAME = 'devx'
