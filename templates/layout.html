@@ -19,7 +19,7 @@
     <div class="metanav">
       <a href="{{ url_for('logout') }}">Log out</a>
     </div>
-<!--<div class="console">
+<div class="console">
       <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">
         <ul style="list-style: none">
           <li>Printer: 
@@ -31,7 +31,7 @@
           <li><input type="submit" value="Add">
         </ul>
       </form>
-    </div>-->
+    </div>
     <div class="table-stats">
         <h4 class="stat">Total requests: {{ numrequests }}</h4>
         <h4 class="stat">Requests in the last 24 hours: {{ dayrequests }}</h4>
@@ -46,9 +46,9 @@
           <input type="submit" value="Show Successful Requests">
         </form>   
       {% endif %}
-        <form action="{{ url_for('clear_database') }}" method="post">
+<!--         <form action="{{ url_for('clear_database') }}" method="post">
           <input type="submit" value="Clear Database">
-        </form>
+        </form> -->
       </div>
     {% if entries|length == 0 %}
         <p>Database is empty.</p>
