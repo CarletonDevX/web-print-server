@@ -7,7 +7,7 @@ from flask import Flask, request, session, g, redirect, url_for, \
 from contextlib import closing
 
 # configuration
-DATABASE = 'db/data.db'
+DATABASE = '/data/jfp.db'
 DEBUG = True
 SECRET_KEY = 'keepitsecretkeepitsafe'
 USERNAME = 'devx'
