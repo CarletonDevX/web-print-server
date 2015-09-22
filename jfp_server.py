@@ -1,9 +1,9 @@
 #Adapted from the "flaskr" tutorial at http://flask.pocoo.org/
 
 import sqlite3
-import time, datetime
+import os, time, datetime
 from flask import Flask, request, session, g, redirect, url_for, \
-     abort, render_template, flash
+     abort, render_template, flash, jsonify
 from contextlib import closing
 
 # configuration
@@ -78,6 +78,15 @@ def clear_database():
     g.db.commit()
     flash('Database cleared.')
     return redirect(url_for('show_entries'))
+
+@app.route('/status', methods=['GET'])
+def get_status():
+    if os.path.isfile('errors.txt'):
+        with open('errors.txt', 'r') as f:
+            return jsonify(**{'errors': f.readline()})
+    else:
+        return jsonify(**{})
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
