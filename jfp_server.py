@@ -81,11 +81,12 @@ def clear_database():
 
 @app.route('/status', methods=['GET'])
 def get_status():
-    if os.path.isfile('errors.txt'):
-        with open('errors.txt', 'r') as f:
-            return jsonify(**{'errors': f.readline()})
-    else:
-        return jsonify(**{})
+    with open('errors.txt', 'r') as f:
+        message = f.readline()
+        if len(message) > 0:
+            return jsonify(**{'errors': message})
+        else:
+            return jsonify(**{})
 
 
 @app.route('/login', methods=['GET', 'POST'])
