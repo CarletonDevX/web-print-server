@@ -48,7 +48,7 @@ def show_entries():
     cur = g.db.execute('SELECT time, printer, copies, success FROM Entries ORDER BY id DESC')
     entries = [dict(time=format_time(row[0]), printer=row[1], copies=row[2], success=row[3]) for row in cur.fetchall()]
     numreq = g.db.execute('SELECT COUNT(*) FROM Entries').fetchone()[0]
-    dayreq = g.db.execute('SELECT COUNT(*) FROM Entries WHERE time > ?', [time.time()-86400000]).fetchone()[0]
+    dayreq = g.db.execute('SELECT COUNT(*) FROM Entries WHERE time > ?', [time.time()-86400]).fetchone()[0]
     return render_template('layout.html', entries=entries, numrequests=numreq, dayrequests=dayreq)
 
 @app.route('/add', methods=['POST'])
