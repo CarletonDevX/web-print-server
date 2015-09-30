@@ -17,6 +17,80 @@ PASSWORD = 'devx'
 app = Flask(__name__)
 app.config.from_object(__name__)
 
+printerPages = {
+  "print\\CASS101-X4600": 1,
+  "print\\CLST100-CC5051": 1,
+  "print\\CMC020-CC5051":  1,
+  "print\\CMC104-CC5051":  1,
+  "print\\CMC104-Gray-CC5051": 1,
+  "print\\CMC121H-CC5051": 1,
+  "print\\CMC201-X4600": 1,
+  "print\\CMC305-X4600": 1,
+  "print\\COWL108-CC5051": 1,
+  "print\\FACI318-CC5051": 1,
+  "print\\GHUE156-X5550":  1,
+  "print\\GOOD102-X3610":  1,
+  "print\\GOOD103-CC5051": 1,
+  "print\\GOOD103-X6350":  1,
+  "print\\HOPN104-CC5051": 1,
+  "print\\HUL007A-X3600":  1,
+  "print\\HUL010-X3600": 1,
+  "print\\HUL014-X6350": 1,
+  "print\\HUL100-CC5051":  1,
+  "print\\LAIR115-CC5051": 1,
+  "print\\LAIR118-CC5051": 1,
+  "print\\LAIR208-CC5051": 1,
+  "print\\LAIR208-X4600":  1,
+  "print\\LAIR300-X3610":  1,
+  "print\\LAST110-CC5051": 1,
+  "print\\LDC220-CC5051":  2,
+  "print\\LDC243-X5550": 2,
+  "print\\LEIG128-LJM602": 2,
+  "print\\LEIG217-X4510":  2,
+  "print\\LEIG218-CC5051": 2,
+  "print\\LEIG218-Gray-CC5051":  2,
+  "print\\LEIG231-X4600":  2,
+  "print\\LEIG326-CC5051": 2,
+  "print\\LEIG326-X4600":  2,
+  "print\\LEIG414-LJM602": 2,
+  "print\\LIBR-Public-X5550":  2,
+  "print\\LIBR400-CC5051": 2,
+  "print\\MUDD075-X4510":  2,
+  "print\\MUDD169-X4600":  2,
+  "print\\MUSI200-X4600":  2,
+  "print\\OLIN007-X6350":  2,
+  "print\\OLIN011-X3600":  2,
+  "print\\OLIN104-X4510":  2,
+  "print\\OLIN112-X4510":  2,
+  "print\\OLIN125-CC5051": 2,
+  "print\\OLIN125-Gray-CC5051":  2,
+  "print\\OLIN215-CC5051": 2,
+  "print\\OLIN301-X4600":  2,
+  "print\\OLIN311-CC5051": 2,
+  "print\\OLIN311-X6350":  2,
+  "print\\RSC105-CC5051":  3,
+  "print\\RSC235-CC5051":  3,
+  "print\\SAYL-Public-X5550":  3,
+  "print\\SAYL050-X6360":  3,
+  "print\\SAYL057-CC5051": 3,
+  "print\\SAYL109A-X4510": 3,
+  "print\\SAYL150-X4510":  3,
+  "print\\SCOV014-CC5051": 3,
+  "print\\SEVY014-CC5051": 3,
+  "print\\SEVY129-CC5051": 3,
+  "print\\STRG107-CC5051": 3,
+  "print\\TWCO100-CC5051": 3,
+  "print\\WCC003-X3610": 3,
+  "print\\WCC028-CC5051":  3,
+  "print\\WCC138-X6360": 3,
+  "print\\WCC146-X3610": 3,
+  "print\\WCC225-CC5051":  3,
+  "print\\WEST200-CC5051": 3,
+  "print\\WILL119-X4600":  3,
+  "print\\WILL310-CC5051": 3,
+  "print\\WILL409-X4600":  3
+}
+
 #database helper functions
 def connect_db():
     return sqlite3.connect(app.config['DATABASE'])
@@ -81,15 +155,16 @@ def clear_database():
 
 @app.route('/status', methods=['GET'])
 def get_status():
+    response = {}
     try:
         with open('/tmp/errors.txt', 'r') as f:
             message = f.readline()
             if len(message) > 0:
-                return jsonify(**{'errors': message})
-            else:
-                return jsonify(**{})
+                response["errors"] = message
     except:
-        return jsonify(**{})
+        pass
+    response["printerPages"] = printerPages
+    return(jsonify(**response))
 
 
 @app.route('/login', methods=['GET', 'POST'])
