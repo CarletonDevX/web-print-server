@@ -5,15 +5,15 @@ import os, time, datetime
 from flask import Flask, request, session, g, redirect, url_for, \
      abort, render_template, flash, jsonify
 from contextlib import closing
-import pickle
+import pickle, sys
 
 # configuration
 DATABASE = '/var/www/web-print-server/web-print-server/db/data.db'
 DEBUG = True
+DIR = '/var/www/web-print-server/web-print-server/'
 SECRET_KEY = 'keepitsecretkeepitsafe'
 USERNAME = 'devx'
 PASSWORD = 'devx'
-
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -90,7 +90,7 @@ def get_status():
                 response["errors"] = message
     except:
         pass
-    response["printerPages"] = pickle.load(open("printerPages.p", "rb"))
+    response['printerPages'] = pickle.load(open(DIR + 'printerPages.p', 'rb'))
     return(jsonify(**response))
 
 

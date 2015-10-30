@@ -54,7 +54,7 @@ def main():
 	login(u, p)
 	navigateToPage()
 	storePrinterInfo(1)
-	pickle.dump(printerPages, open("printerPages.p", "wb"))
+	pickle.dump(printerPages, open("/var/www/web-print-server/web-print-server/printerPages.p", "wb"))
 
 if __name__ == '__main__':
 	main()
