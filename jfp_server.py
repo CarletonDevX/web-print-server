@@ -8,9 +8,9 @@ from contextlib import closing
 import pickle, sys
 
 # configuration
-DATABASE = '/var/www/web-print-server/web-print-server/db/data.db'
+DATABASE = '/var/www/jfpdata.xyz/web-print-server/db/data.db'
 DEBUG = True
-DIR = '/var/www/web-print-server/web-print-server/'
+DIR = '/var/www/jfpdata.xyz/web-print-server/'
 SECRET_KEY = 'keepitsecretkeepitsafe'
 USERNAME = 'devx'
 PASSWORD = 'devx'
